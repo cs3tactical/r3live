@@ -138,6 +138,34 @@ bool R3LIVE::get_pointcloud_data_from_ros_message( sensor_msgs::PointCloud2::Con
             pcl_pc.points.resize( pt_count );
             return true;
         }
+        else if ( ( msg->fields.size() == 4 ) && ( msg->fields[ 3 ].name == "intensity" ) ) // OPSYS LIDAR
+        {
+            double maximum_range = 5;
+            get_ros_parameter< double >( m_ros_node_handle, "iros_range", maximum_range, 5 );
+            pcl::PointCloud< pcl::PointXYZRGB > pcl_rgb_pc;
+            pcl::fromROSMsg( *msg, pcl_rgb_pc );
+            double lidar_point_time = msg->header.stamp.toSec();
+            int    pt_count = 0;
+            pcl_pc.resize( pcl_rgb_pc.points.size() );
+            for ( int i = 0; i < pcl_rgb_pc.size(); i++ )
+            {
+                pcl::PointXYZINormal temp_pt;
+                temp_pt.x = pcl_rgb_pc.points[ i ].x;
+                temp_pt.y = pcl_rgb_pc.points[ i ].y;
+                temp_pt.z = pcl_rgb_pc.points[ i ].z;
+                double frame_dis = sqrt( temp_pt.x * temp_pt.x + temp_pt.y * temp_pt.y + temp_pt.z * temp_pt.z );
+                if ( frame_dis > maximum_range )
+                {
+                    continue;
+                }
+                temp_pt.intensity = ( pcl_rgb_pc.points[ i ].r + pcl_rgb_pc.points[ i ].g + pcl_rgb_pc.points[ i ].b ) / 3.0;
+                temp_pt.curvature = 0;
+                pcl_pc.points[ pt_count ] = temp_pt;
+                pt_count++;
+            }
+            pcl_pc.points.resize( pt_count );
+            return true;
+        }
         else // TODO, can add by yourself
         {
             cout << "Get pointcloud data from ros messages fail!!! ";

@@ -17,7 +17,8 @@ enum LID_TYPE
     MID,
     HORIZON,
     VELO16,
-    OUST64
+    OUST64,
+    OPSYS
 };
 
 enum Feature
@@ -143,6 +144,11 @@ int main( int argc, char **argv )
     case OUST64:
         printf( "OUST64\n" );
         sub_points = n.subscribe( "/os_cloud_node/points", 1000, oust64_handler, ros::TransportHints().tcpNoDelay() );
+        break;
+
+    case OPSYS:
+        printf( "OPSYS\n" );
+        sub_points = n.subscribe( "/lidar/scan_3D", 1000, oust64_handler, ros::TransportHints().tcpNoDelay() );
         break;
 
     default:

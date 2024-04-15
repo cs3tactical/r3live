@@ -65,9 +65,9 @@ Following this [ROS Installation](http://wiki.ros.org/ROS/Installation) to insta
 ```
 sudo apt-get install ros-XXX-cv-bridge ros-XXX-tf ros-XXX-message-filters ros-XXX-image-transport ros-XXX-image-transport*
 ```
-**NOTICE:** remember to replace "XXX" on above command as your ROS distributions, for example, if your use ROS-kinetic, the command should be:<br>
+**NOTICE:** remember to replace "XXX" on above command as your ROS distributions, for example, if your use ROS-noetic, the command should be:<br>
 ```
-sudo apt-get install ros-kinetic-cv-bridge ros-kinetic-tf ros-kinetic-message-filters ros-kinetic-image-transport*
+sudo apt-get install ros-noetic-cv-bridge ros-noetic-tf ros-noetic-message-filters ros-noetic-image-transport*
 ```
 ### 3.2. **livox_ros_driver**
 Follow this [livox_ros_driver Installation](https://github.com/Livox-SDK/livox_ros_driver).
